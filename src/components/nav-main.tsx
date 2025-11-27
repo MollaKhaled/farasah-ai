@@ -24,6 +24,7 @@ export function NavMain({ routes }: TProps) {
               <SidebarMenuItem key={route.name}>
                 <Link to={route.url}>
                   <SidebarMenuButton
+                  variant={route.isActive ?"gradient":"default"}
                     tooltip={route.name}
                     isActive={route.isActive}
                     className="capitalize"

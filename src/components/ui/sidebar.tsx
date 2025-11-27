@@ -476,6 +476,7 @@ const sidebarMenuButtonVariants = cva(
   {
     variants: {
       variant: {
+        gradient: "bg-[linear-gradient(270deg,#FF77D7_0%,#FA6C12_100%)] text-primary-foreground hover:bg-primary/90",
         default: "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
         outline:
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
