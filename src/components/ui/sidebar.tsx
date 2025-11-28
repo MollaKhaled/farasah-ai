@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import IconSidebar from "../svg-icon/icon-sidebar"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -265,13 +266,13 @@ function SidebarTrigger({
       variant="ghost"
       size="icon"
       className={cn("size-7", className)}
-      onClick={(event) => {
-        onClick?.(event)
+      onClick={() => {
+        onClick?.()
         toggleSidebar()
       }}
       {...props}
     >
-      <PanelLeftIcon />
+      <IconSidebar/>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

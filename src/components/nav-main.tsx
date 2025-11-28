@@ -7,8 +7,21 @@ import {
 } from "./ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
 import type { TRoute } from "../types";
-import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, useSidebar } from "./ui/sidebar";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  useSidebar,
+} from "./ui/sidebar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 type TProps = { routes: TRoute[] };
 export function NavMain({ routes }: TProps) {
@@ -23,7 +36,7 @@ export function NavMain({ routes }: TProps) {
             !!route.children == false ? (
               <SidebarMenuItem key={route.name}>
                 <Link to={route.url}>
-                  <SidebarMenuButton
+                  {/* <SidebarMenuButton
                   variant={route.isActive ?"gradient":"default"}
                     tooltip={route.name}
                     isActive={route.isActive}
@@ -31,6 +44,20 @@ export function NavMain({ routes }: TProps) {
                   >
                     {route.icon && <route.icon />}
                     <span>{route.name}</span>
+                  </SidebarMenuButton> */}
+                  <SidebarMenuButton
+                    variant={route.isActive ? "gradient" : "default"}
+                    tooltip={route.name}
+                    isActive={route.isActive}
+                    className="capitalize group"
+                  >
+                    {route.icon && (
+                      <route.icon className="group-hover:text-primary group-data-[active=true]:text-primary" />
+                    )}
+
+                    <span className="group-hover:text-primary group-data-[active=true]:text-primary">
+                      {route.name}
+                    </span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>

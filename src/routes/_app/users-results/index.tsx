@@ -1,21 +1,20 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Eye, PenSquare, Trash2 } from "lucide-react";
 import { useState } from "react";
-import type { TForm } from '../../../types/form';
-import { FORM_DATA } from '../../../data/form';
-import AppActionsDropdown from '../../../components/app-actions-dropdown';
-import AppTable from '../../../components/app-table';
-import {  Plus, Rows3, SlidersHorizontal } from "lucide-react";
-import { Button } from '../../../components/ui/button';
-import SearchBar from '../../../components/ui/search-bar';
-import IconSort from '../../../components/svg-icon/icon-sort';
-import IconExport from '../../../components/svg-icon/icon-export';
+import type { TForm } from "../../../types/form";
+import { FORM_DATA } from "../../../data/form";
+import AppActionsDropdown from "../../../components/app-actions-dropdown";
+import AppTable from "../../../components/app-table";
+import { Plus, Rows3, SlidersHorizontal } from "lucide-react";
+import { Button } from "../../../components/ui/button";
+import SearchBar from "../../../components/ui/search-bar";
+import IconSort from "../../../components/svg-icon/icon-sort";
+import IconExport from "../../../components/svg-icon/icon-export";
+import { Checkbox } from "../../../components/ui/checkbox";
 
-
-
-export const Route = createFileRoute('/_app/users-results/')({
-    component: RouteComponent,
+export const Route = createFileRoute("/_app/users-results/")({
+  component: RouteComponent,
 });
 // Dummy data
 const DUMMY_DATA = [
@@ -72,10 +71,43 @@ const DUMMY_DATA = [
 ];
 
 function RouteComponent() {
-const [form, setForm] = useState<TForm>(FORM_DATA);
+  const [form, setForm] = useState<TForm>(FORM_DATA);
+  console.log("🚀 ~ RouteComponent ~ form,:", form,)
+  
 
   const columns: ColumnDef<any>[] = [
-    { header: "ID", accessorKey: "id" },
+    {
+      id: "select",
+      accessorKey: "id",
+      header: ({ table }) => (
+        <div className="flex items-center gap-3">
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Select all"
+          />
+          <span className="font-medium">ID</span>
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center gap-3">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+          <span>{row.original.id}</span>
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+
     { header: "Name", accessorKey: "name" },
     { header: "Email", accessorKey: "email" },
     { header: "Device Used", accessorKey: "deviceUsed" },
@@ -149,7 +181,7 @@ const [form, setForm] = useState<TForm>(FORM_DATA);
       <div className="px-4">
         <div className="flex justify-between mb-6 mt-6">
           <h1 className="text-3xl font-bold leading-12">Users & Results</h1>
-          <Button variant="outline" className="">
+          <Button variant="gradient" className="">
             <Plus /> Add New User
           </Button>
         </div>
@@ -183,4 +215,3 @@ const [form, setForm] = useState<TForm>(FORM_DATA);
     </div>
   );
 }
-

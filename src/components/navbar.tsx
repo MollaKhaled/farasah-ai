@@ -1,13 +1,16 @@
-
-
 import { NavUser } from "./nav-user";
 import IconNotification from "./svg-icon/icon-notification";
 import SearchBar from "./ui/search-bar";
 import { SidebarTrigger } from "./ui/sidebar";
-import LanguageSelector from "./language-selector";
 import { useIsMobile } from "../hooks/use-mobile";
+import { DropdownSelector, type DropdownOption } from "./dropdown";
+import { Flag } from "lucide-react";
 
 export default function Navbar() {
+  const languages: DropdownOption<string>[] = [
+  { value: "en", label: "English", icon: Flag },
+  { value: "bn", label: "Bangla", icon: Flag },
+];
 
   const isMobile = useIsMobile()
   
@@ -21,9 +24,10 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-4 ">
           {/* <AppThemeToggle /> */}
-          <LanguageSelector />
+          {/* <LanguageSelector /> */}
+          <DropdownSelector options={languages} />
           <IconNotification className="w-24 h-24 cursor-pointer hover:opacity-70" />
-          <NavUser />
+          <NavUser  />
         </div>
       </div>
     </header>

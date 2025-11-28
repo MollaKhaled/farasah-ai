@@ -72,12 +72,14 @@ function RouteComponent() {
           const TrendComponent = card.trend;
 
           return (
+           
             <Card key={card.id} className="@container/card">
               <div className="p-4 flex items-center justify-between w-full">
                 <div className="flex items-center gap-4">
                   <div className="rounded-full bg-gray-100 flex items-center justify-center">
                     <IconComponent />
                   </div>
+                   
 
                   <div>
                     <h1 className="text-xl font-semibold leading-none">
@@ -97,9 +99,10 @@ function RouteComponent() {
           );
         })}
       </div>
+     <div className="divider border-1 mt-6"></div>
       <section className="mb-20">
         <h1 className="mt-14 mb-10 text-lg ">Statistics</h1>
-        <div className="flex items-end justify-between gap-6">
+        <div className="flex  items-end justify-between gap-6">
           <div className="w-1/2">
             <CircleChart />
           </div>

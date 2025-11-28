@@ -1,77 +1,90 @@
-
- import { TrendingUp } from "lucide-react";
 import { Pie, PieChart } from "recharts";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "./chart";
-
-
+import { Card, CardContent, CardHeader, CardTitle } from "./card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "./chart";
+import { DropdownSelector, type DropdownOption } from "../dropdown";
 
 export const description = "A simple pie chart";
 
+const days: DropdownOption<number>[] = [
+  { value: 7, label: "Last 7 Days" },
+  { value: 14, label: "Last 14 Days" },
+  { value: 30, label: "Last 30 Days" },
+];
+
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+  { category: "Free", value: 89, fill: "#FFA1E6" },
+  { category: "Pro", value: 14, fill: "#FA3ABC" },
+  { category: "Subscribers", value: 18, fill: "#CC0A7E" },
 ];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  value: {
+    label: "Count",
   },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
+  free: {
+    label: "Free",
+    color: "#FFA1E6",
   },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
+  pro: {
+    label: "Pro",
+    color: "#FA3ABC",
   },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
+  subscribers: {
+    label: "Subscribers",
+    color: "#CC0A7E",
   },
 } satisfies ChartConfig;
 
 export function CircleChart() {
   return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+     <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between gap-4">
+          <CardTitle className="text-3xl  font-semibold">
+            User
+          </CardTitle>
+          <DropdownSelector options={days} defaultValue={days[0]} />
+        </div>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="background: linear-gradient(270deg, #FF77D7 0%, #FA6C12 100%);
-"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie data={chartData} dataKey="visitors" nameKey="browser" />
-          </PieChart>
-        </ChartContainer>
+
+      <CardContent>
+        <div className="flex flex-col lg:flex-row items-center gap-8">
+          <div className="lg:flex-1">
+            <ChartContainer config={chartConfig} > 
+              <PieChart>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={chartData}
+                  dataKey="value"
+                  nameKey="category"
+                  startAngle={90}
+                  endAngle={-270}
+                />
+              </PieChart>
+            </ChartContainer>
+          </div>
+
+          <div className="flex flex-col gap-3 lg:justify-center">
+            {chartData.map((entry) => (
+              <div key={entry.category} className="flex items-center gap-2">
+                <div
+                  className="size-2 rounded-full"
+                  style={{ backgroundColor: entry.fill }}
+                />
+                <span className="text-sm">{entry.category}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }

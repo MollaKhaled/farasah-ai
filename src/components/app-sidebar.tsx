@@ -2,25 +2,23 @@ import * as React from "react";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarRail,
   SidebarTrigger,
   useSidebar,
 } from "./ui/sidebar";
 import { NavMain } from "./nav-main";
-
 import IconDashboard from "./svg-icon/icon-dashboard";
-
 import IconUserResult from "./svg-icon/icon-user-result";
 import { useRouterState } from "@tanstack/react-router";
 import type { TRoute } from "../types";
 import IconSetting from "./svg-icon/icon-setting";
 import IconContent from "./svg-icon/icon-content";
 import IconPublicApi from "./svg-icon/icon-public-api";
-
 import IconHead from "./svg-icon/icon-head";
-import { useIsMobile } from "../hooks/use-mobile";
-import { cn } from "../lib/utils";
+import IconHeaderName from "./svg-icon/icon-header-name";
+import { NavUser } from "./nav-user";
 
 // const data = {
 //   user: {
@@ -65,6 +63,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   } = useRouterState();
   const { open } = useSidebar();
   console.log("🚀 ~ AppSidebar ~ open:", open);
+
+    const user = {
+    name: "Guest",
+    email: "khaledbalok@gmail.com",
+    avatar: "/image/profilePhoto.png",
+  };
 
   const routes: TRoute[] = [
     {
@@ -111,21 +115,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        {/* <div className="flex items-center gap-2 px-4 py-2">
-          <img src="/image/logo/logo.svg" alt="Logo"  />
-        </div> */}
-
-        {/* <img src="/image/logo/logo.svg" alt="Logo" className="h-6" /> */}
         <div className=" flex items-center justify-between">
           <IconHead className="size-8  cursor-pointer" />
+          <IconHeaderName/>
           <SidebarTrigger className="rounded-md p-1" />
         </div>
-        
       </SidebarHeader>
       <SidebarContent>
         <NavMain routes={routes} />
       </SidebarContent>
       <SidebarRail />
+      <SidebarFooter>
+       <NavUser  user={user}/>
+      </SidebarFooter>
     </Sidebar>
   );
 }
