@@ -5,23 +5,40 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
-} from "lucide-react"
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "./ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import IconHead from "./svg-icon/icon-head"
-
+} from "lucide-react";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "./ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useTranslation } from "react-i18next";
 
 export function NavUser({
-  user = { name: "Guest", email: "encoderit@gmail.com", avatar: "../../public/image/profilePhoto.png" },
+  user = {
+    name: "Guest",
+    email: "encoderit@gmail.com",
+    avatar: "/image/profilePhoto.png",
+  },
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
+  const { t } = useTranslation();
 
   return (
     <SidebarMenu>
@@ -34,30 +51,31 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-full">{user.avatar}</AvatarFallback>
+                <AvatarFallback className="rounded-full">
+                  {user.name[0]}
+                </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left ">
-                <span className="truncate font-medium">{user.name}</span> 
-                 <span className="truncate text-xs">{user.email}</span>
-                
+              <div className="grid flex-1 text-left">
+                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
-              
             </SidebarMenuButton>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
- 
-
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user.name[0]}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -65,38 +83,44 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
-                Upgrade to Pro
+                {t("profile.upgradeToPro", "Upgrade to Pro")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <BadgeCheck />
-                Account
+                {t("profile.account", "Account")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <CreditCard />
-                Billing
+                {t("profile.billing", "Billing")}
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
-                Notifications
+                {t("navbar.notifications", "Notifications")}
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuItem>
               <LogOut />
-              Log out
+              {t("navbar.logout", "Log out")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
 
 // import {
@@ -191,7 +215,3 @@ export function NavUser({
 //     </SidebarMenu>
 //   );
 // }
-
-
-
-

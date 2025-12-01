@@ -30,6 +30,7 @@ export function DropdownSelector<T = string>({
   const [selected, setSelected] = useState<DropdownOption<T>>(defaultValue || options[0]);
 
   const handleSelect = (option: DropdownOption<T>) => {
+    console.log(option)
     setSelected(option);
     onChange?.(option);
   };

@@ -5,11 +5,11 @@ import IconUser from "../../../components/svg-icon/icon-user";
 import IconComplete from "../../../components/svg-icon/icon-complete";
 import IconUpgrade from "../../../components/svg-icon/icon-upgrade";
 import IconConversion from "../../../components/svg-icon/icon-conversion";
-import IconWaveGreen from "../../../components/svg-icon/icon-wave-green";
-import IconWaveRed from "../../../components/svg-icon/icon-wave-red";
 import { CircleChart } from "../../../components/ui/pie-chart";
 import { LineChart } from "../../../components/ui/line-chart";
 import { ChevronsUpDown } from "lucide-react";
+
+import { MiniAreaChart } from "../../../components/app-mini-chart-area";
 
 
 
@@ -24,28 +24,28 @@ const dashboardCards = [
     icon: IconUser,
     value: "5000",
     label: "Total Users",
-    trend: IconWaveGreen,
+    trend: MiniAreaChart,
   },
   {
     id: 2,
     icon: IconComplete,
     value: "200",
     label: "Completed Tests",
-    trend: IconWaveGreen,
+    trend: MiniAreaChart,
   },
   {
     id: 3,
     icon: IconUpgrade,
     value: "20",
     label: "Upgrade to Pro",
-    trend: IconWaveGreen,
+    trend: MiniAreaChart,
   },
   {
     id: 4,
     icon: IconConversion,
     value: "45%",
     label: "Conversion w",
-    trend: IconWaveRed,
+    trend: MiniAreaChart,
   },
 ];
 
@@ -72,14 +72,12 @@ function RouteComponent() {
           const TrendComponent = card.trend;
 
           return (
-           
             <Card key={card.id} className="@container/card">
               <div className="p-4 flex items-center justify-between w-full">
                 <div className="flex items-center gap-4">
                   <div className="rounded-full bg-gray-100 flex items-center justify-center">
                     <IconComponent />
                   </div>
-                   
 
                   <div>
                     <h1 className="text-xl font-semibold leading-none">
@@ -99,14 +97,14 @@ function RouteComponent() {
           );
         })}
       </div>
-     <div className="divider border-1 mt-6"></div>
+      <div className="divider border-1 mt-6"></div>
       <section className="mb-20">
-        <h1 className="mt-14 mb-10 text-lg ">Statistics</h1>
-        <div className="flex  items-end justify-between gap-6">
-          <div className="w-1/2">
+        <h1 className="mt-14 mb-10 text-lg">Statistics</h1>
+        <div className="flex items-stretch gap-6">
+          <div className="w-1/2 grid">
             <CircleChart />
           </div>
-          <div className="w-1/2">
+          <div className="w-1/2 grid">
             <LineChart />
           </div>
         </div>

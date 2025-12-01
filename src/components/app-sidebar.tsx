@@ -20,53 +20,16 @@ import IconHead from "./svg-icon/icon-head";
 import IconHeaderName from "./svg-icon/icon-header-name";
 import { NavUser } from "./nav-user";
 
-// const data = {
-//   user: {
-//     name: "shadcn",
-//     email: "m@example.com",
-//     avatar: "/image/logo/logo.svg",
-//   },
-
-//   NavMain:[
-//     {
-//       title: "Dashboard",
-//       url: "#",
-//       icon: IconDashboard,
-//       isActive: true,
-//     },
-//     {
-//       title: "Users & Results",
-//       url: "/",
-//       icon: IconUserResult,
-//     },
-//     {
-//       title: "Settings",
-//       url: "#",
-//       icon: IconSetting,
-//     },
-//     {
-//       title: "Content Management",
-//       url: "#",
-//       icon: IconContent,
-//     },
-//     {
-//       title: "Public API Management",
-//       url: "#",
-//       icon: IconPublicApi,
-//     },
-//   ],
-// };
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const {
     location: { pathname },
   } = useRouterState();
   const { open } = useSidebar();
-  console.log("🚀 ~ AppSidebar ~ open:", open);
+  const [isHovered, setIsHovered] = React.useState(false);
 
-    const user = {
+  const user = {
     name: "Guest",
-    email: "khaledbalok@gmail.com",
+    email: "encoderit@gmail.com",
     avatar: "/image/profilePhoto.png",
   };
 
@@ -115,10 +78,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <div className=" flex items-center justify-between">
-          <IconHead className="size-8  cursor-pointer" />
-          <IconHeaderName/>
-          <SidebarTrigger className="rounded-md p-1" />
+        <div className="flex items-center justify-between">
+          {!open ? (
+            <div
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              className="relative"
+            >
+              {!isHovered ? (
+                <IconHead className="size-8 cursor-pointer" />
+              ) : (
+                <SidebarTrigger className="rounded-md p-1" />
+              )}
+            </div>
+          ) : (
+            <>
+              <IconHead className="size-8 cursor-pointer" />
+              <IconHeaderName />
+              <SidebarTrigger className="rounded-md p-1" />
+            </>
+          )}
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -126,8 +105,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
-       <NavUser  user={user}/>
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );
 }
+  
+  
+

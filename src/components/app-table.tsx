@@ -11,9 +11,9 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
+  TableHead,
 } from "./ui/table";
 
 interface AppTableProps<T> {
@@ -31,15 +31,15 @@ export default function AppTable<T>({ data, columns }: AppTableProps<T>) {
   const rows = table.getRowModel().rows;
 
   return (
-    <Table className="border">
-      <TableHeader>
+    <Table className="w-full">
+      {/* Table Header */}
+      <TableHeader className="bg-gray-100">
         {table.getHeaderGroups().map((headerGroup) => (
-          <TableRow key={headerGroup.id} className="hover:bg-transparent">
+          <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
               <TableHead
-                className="h-11 text-start  text-muted-foreground border whitespace-nowrap"
-                // key={header.id}
                 key={nanoid()}
+                className="text-start text-muted-foreground px-2 py-1"
               >
                 {header.isPlaceholder
                   ? null
@@ -53,13 +53,14 @@ export default function AppTable<T>({ data, columns }: AppTableProps<T>) {
         ))}
       </TableHeader>
 
+      {/* Table Body */}
       <TableBody>
         {rows.map((row) => (
-          <TableRow key={row.id} className="hover:bg-transparent text-primary">
+          <TableRow key={row.id} className="hover:bg-gray-50">
             {row.getVisibleCells().map((cell) => (
               <TableCell
                 key={nanoid()}
-                className="whitespace-nowrap border max-w-full truncate"
+                className="whitespace-nowrap truncate px-2 py-1"
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Eye, PenSquare, Trash2 } from "lucide-react";
+import { ArrowUpDown, Eye, PenSquare, Trash2 } from "lucide-react";
 import { useState } from "react";
 import type { TForm } from "../../../types/form";
 import { FORM_DATA } from "../../../data/form";
@@ -16,7 +16,7 @@ import { Checkbox } from "../../../components/ui/checkbox";
 export const Route = createFileRoute("/_app/users-results/")({
   component: RouteComponent,
 });
-// Dummy data
+
 const DUMMY_DATA = [
   {
     id: 1,
@@ -91,7 +91,9 @@ function RouteComponent() {
             }
             aria-label="Select all"
           />
-          <span className="font-medium">ID</span>
+          <span className="font-medium">
+            ID 
+          </span>
         </div>
       ),
       cell: ({ row }) => (
@@ -107,8 +109,25 @@ function RouteComponent() {
       enableSorting: false,
       enableHiding: false,
     },
+   
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("name")}</div>
+      ),
+    },
 
-    { header: "Name", accessorKey: "name" },
     { header: "Email", accessorKey: "email" },
     { header: "Device Used", accessorKey: "deviceUsed" },
     { header: "Plan", accessorKey: "plan" },
@@ -181,7 +200,7 @@ function RouteComponent() {
       <div className="px-4">
         <div className="flex justify-between mb-6 mt-6">
           <h1 className="text-3xl font-bold leading-12">Users & Results</h1>
-          <Button variant="gradient" className="">
+          <Button className="bg-gradient-to-r from-[#FF77D7] via-[#FF77D7] to-[#FA6C12] text-black hover:opacity-90">
             <Plus /> Add New User
           </Button>
         </div>
@@ -215,3 +234,5 @@ function RouteComponent() {
     </div>
   );
 }
+
+

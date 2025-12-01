@@ -1,4 +1,4 @@
-import { Pie, PieChart } from "recharts";
+import { Pie, PieChart, Cell } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import {
   ChartContainer,
@@ -20,34 +20,66 @@ const chartData = [
   { category: "Free", value: 89, fill: "#FFA1E6" },
   { category: "Pro", value: 14, fill: "#FA3ABC" },
   { category: "Subscribers", value: 18, fill: "#CC0A7E" },
+  
 ];
 
 const chartConfig = {
-  value: {
-    label: "Count",
-  },
-  free: {
-    label: "Free",
-    color: "#FFA1E6",
-  },
-  pro: {
-    label: "Pro",
-    color: "#FA3ABC",
-  },
-  subscribers: {
-    label: "Subscribers",
-    color: "#CC0A7E",
-  },
+  // value: {
+  //   label: "Count",
+  // },
+  // free: {
+  //   label: "Free",
+  //   color: "#FFA1E6",
+  // },
+  // pro: {
+  //   label: "Pro",
+  //   color: "#FA3ABC",
+  // },
+  // subscribers: {
+  //   label: "Subscribers",
+  //   color: "#CC0A7E",
+  // },
 } satisfies ChartConfig;
+
+const renderCustomLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  category,
+  value,
+}: any) => {
+  const RADIAN = Math.PI / 180;
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor="middle"
+      dominantBaseline="central"
+      className=""
+    >
+      <tspan x={x} dy="-0.5em">
+        {category}
+      </tspan>
+      <tspan x={x} dy="1.2em">
+        {value}
+      </tspan>
+    </text>
+  );
+};
 
 export function CircleChart() {
   return (
-     <Card>
+    <Card>
       <CardHeader>
         <div className="flex items-center justify-between gap-4">
-          <CardTitle className="text-3xl  font-semibold">
-            User
-          </CardTitle>
+          <CardTitle className="text-3xl font-semibold">User</CardTitle>
           <DropdownSelector options={days} defaultValue={days[0]} />
         </div>
       </CardHeader>
@@ -55,7 +87,7 @@ export function CircleChart() {
       <CardContent>
         <div className="flex flex-col lg:flex-row items-center gap-8">
           <div className="lg:flex-1">
-            <ChartContainer config={chartConfig} > 
+            <ChartContainer config={chartConfig}>
               <PieChart>
                 <ChartTooltip
                   cursor={false}
@@ -67,7 +99,13 @@ export function CircleChart() {
                   nameKey="category"
                   startAngle={90}
                   endAngle={-270}
-                />
+                  label={renderCustomLabel}
+                  labelLine={false}
+                >
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                </Pie>
               </PieChart>
             </ChartContainer>
           </div>
