@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Sidebar,
   SidebarContent,
@@ -21,6 +22,7 @@ import IconHeaderName from "./svg-icon/icon-header-name";
 import { NavUser } from "./nav-user";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { t, i18n } = useTranslation();
   const {
     location: { pathname },
   } = useRouterState();
@@ -33,37 +35,42 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     avatar: "/image/profilePhoto.png",
   };
 
+  // Determine active link
+  function isActiveLink(items: string[]): boolean {
+    return items.includes(pathname);
+  }
+
   const routes: TRoute[] = [
     {
-      name: "Dashboard",
+      name: t("sidebar.dashboard", "Dashboard"),
       url: "/",
       icon: IconDashboard,
       isActive: isActiveLink(["/"]),
       isVisible: true,
     },
     {
-      name: "Users & Results",
+      name: t("sidebar.usersResults", "Users & Results"),
       url: "/users-results",
       icon: IconUserResult,
       isActive: isActiveLink(["/users-results"]),
       isVisible: true,
     },
     {
-      name: "Settings",
+      name: t("sidebar.settings", "Settings"),
       url: "/settings",
       icon: IconSetting,
       isActive: isActiveLink(["/settings"]),
       isVisible: true,
     },
     {
-      name: "Content Management",
+      name: t("sidebar.contentManagement", "Content Management"),
       url: "/content-management",
       icon: IconContent,
       isActive: isActiveLink(["/content-management"]),
       isVisible: true,
     },
     {
-      name: "Public API Management",
+      name: t("sidebar.publicApiManagement", "Public API Management"),
       url: "/public-api-management",
       icon: IconPublicApi,
       isActive: isActiveLink(["/public-api-management"]),
@@ -71,12 +78,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
   ];
 
-  function isActiveLink(items: string[]): boolean {
-    return items.includes(pathname);
-  }
+  // RTL support: open sidebar from right for Arabic
+  const sidebarSide = i18n.language === "ar" ? "right" : "left";
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" side={sidebarSide} {...props}>
       <SidebarHeader>
         <div className="flex items-center justify-between">
           {!open ? (
@@ -110,6 +116,3 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
-  
-  
-

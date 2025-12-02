@@ -1,17 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Eye, PenSquare, Trash2 } from "lucide-react";
+import {
+  ArrowUpDown,
+  Eye,
+  PenSquare,
+  Trash2,
+  Plus,
+  Rows3,
+  SlidersHorizontal,
+} from "lucide-react";
 import { useState } from "react";
 import type { TForm } from "../../../types/form";
 import { FORM_DATA } from "../../../data/form";
 import AppActionsDropdown from "../../../components/app-actions-dropdown";
 import AppTable from "../../../components/app-table";
-import { Plus, Rows3, SlidersHorizontal } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import SearchBar from "../../../components/ui/search-bar";
 import IconSort from "../../../components/svg-icon/icon-sort";
 import IconExport from "../../../components/svg-icon/icon-export";
 import { Checkbox } from "../../../components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "../../../components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+} from "../../../components/ui/alert-dialog";
+import FormUser from "./-components/form-user";
 
 export const Route = createFileRoute("/_app/users-results/")({
   component: RouteComponent,
@@ -72,8 +96,6 @@ const DUMMY_DATA = [
 
 function RouteComponent() {
   const [form, setForm] = useState<TForm>(FORM_DATA);
-  console.log("🚀 ~ RouteComponent ~ form,:", form,)
-  
 
   const columns: ColumnDef<any>[] = [
     {
@@ -91,9 +113,7 @@ function RouteComponent() {
             }
             aria-label="Select all"
           />
-          <span className="font-medium">
-            ID 
-          </span>
+          <span className="font-medium">ID</span>
         </div>
       ),
       cell: ({ row }) => (
@@ -109,25 +129,21 @@ function RouteComponent() {
       enableSorting: false,
       enableHiding: false,
     },
-   
     {
       accessorKey: "name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Name
-            <ArrowUpDown />
-          </Button>
-        );
-      },
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown />
+        </Button>
+      ),
       cell: ({ row }) => (
         <div className="lowercase">{row.getValue("name")}</div>
       ),
     },
-
     { header: "Email", accessorKey: "email" },
     { header: "Device Used", accessorKey: "deviceUsed" },
     { header: "Plan", accessorKey: "plan" },
@@ -147,14 +163,13 @@ function RouteComponent() {
                 name: "view",
                 icon: Eye,
                 props: {
-                  onClick: () => {
+                  onClick: () =>
                     setForm({
                       type: "read",
                       title: "View User Result",
                       description: "",
                       id: data.id,
-                    });
-                  },
+                    }),
                 },
               },
               {
@@ -162,14 +177,13 @@ function RouteComponent() {
                 name: "edit",
                 icon: PenSquare,
                 props: {
-                  onClick: () => {
+                  onClick: () =>
                     setForm({
                       type: "update",
-                      title: "Update user result",
+                      title: "Update User Result",
                       description: "",
                       id: data.id,
-                    });
-                  },
+                    }),
                 },
               },
               {
@@ -178,14 +192,13 @@ function RouteComponent() {
                 icon: Trash2,
                 props: {
                   variant: "destructive",
-                  onClick: () => {
+                  onClick: () =>
                     setForm({
                       type: "delete",
                       title: "",
                       description: "",
                       id: data.id,
-                    });
-                  },
+                    }),
                 },
               },
             ]}
@@ -200,39 +213,118 @@ function RouteComponent() {
       <div className="px-4">
         <div className="flex justify-between mb-6 mt-6">
           <h1 className="text-3xl font-bold leading-12">Users & Results</h1>
-          <Button className="bg-gradient-to-r from-[#FF77D7] via-[#FF77D7] to-[#FA6C12] text-black hover:opacity-90">
+          <Button
+            className="bg-gradient-to-r from-[#FF77D7] via-[#FF77D7] to-[#FA6C12] text-black hover:opacity-90"
+            onClick={() =>
+              setForm({
+                type: "create",
+                title: "Add New User",
+                description: "",
+              })
+            }
+          >
             <Plus /> Add New User
           </Button>
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-4">
           <SearchBar />
           <div className="flex gap-2">
             <Button variant="outline">
-              <Rows3 />
-              Columns
+              <Rows3 /> Columns
             </Button>
             <Button variant="outline">
-              <Eye />
-              View
+              <Eye /> View
             </Button>
             <Button variant="outline">
-              <IconSort />
-              Sort
+              <IconSort /> Sort
             </Button>
             <Button variant="outline">
-              <SlidersHorizontal />
-              Filters
+              <SlidersHorizontal /> Filters
             </Button>
             <Button variant="outline">
-              <IconExport />
-              Export
+              <IconExport /> Export
             </Button>
           </div>
         </div>
       </div>
+
       <AppTable data={DUMMY_DATA} columns={columns} />
+
+      {/* Read Dialog */}
+      <Dialog
+        open={form.type === "read"}
+        onOpenChange={() => setForm(FORM_DATA)}
+      >
+        <DialogContent className="w-full max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{form.title}</DialogTitle>
+            <DialogDescription>{form.description}</DialogDescription>
+          </DialogHeader>
+          <div className="p-4 bg-gray-100 rounded-md">
+            <p>Viewing user data for ID: {form.id}</p>
+            {/* Add CardUser component here if you have one */}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create/Update Dialog */}
+      <Dialog
+        open={form.type === "create" || form.type === "update"}
+        onOpenChange={() => setForm(FORM_DATA)}
+      >
+        <DialogContent className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{form.title}</DialogTitle>
+            <DialogDescription>{form.description}</DialogDescription>
+          </DialogHeader>
+          <FormUser
+            open={form.type === "create" || form.type === "update"}
+            onClose={() => setForm(FORM_DATA)}
+            formData={
+              form.type === "update"
+                ? DUMMY_DATA.find((user) => user.id === form.id)
+                : undefined
+            }
+            onSuccess={() => {
+              console.log("User saved successfully");
+              setForm(FORM_DATA);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Alert */}
+      <AlertDialog
+        open={form.type === "delete"}
+        onOpenChange={() => setForm(FORM_DATA)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure you want to delete?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this user? This action cannot be
+              undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex gap-2">
+            <AlertDialogCancel className="capitalize min-w-24">
+              Cancel
+            </AlertDialogCancel>
+            <Button
+              variant="destructive"
+              className="capitalize min-w-24 flex items-center gap-2"
+              onClick={() => {
+                console.log("Deleting user:", form.id);
+                setForm(FORM_DATA);
+              }}
+            >
+              <Trash2 /> Delete
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
-
-

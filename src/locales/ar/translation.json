@@ -46,19 +46,23 @@
     "theme": "المظهر"
   },
   "sidebar": {
-    "dashboard": "لوحة التحكم",
-    "home": "الرئيسية",
-    "projects": "المشاريع",
-    "tasks": "المهام",
-    "calendar": "التقويم",
-    "reports": "التقارير",
-    "analytics": "التحليلات",
-    "team": "الفريق",
-    "messages": "الرسائل",
-    "files": "الملفات",
-    "settings": "الإعدادات",
-    "help": "المساعدة"
-  },
+  "dashboard": "لوحة التحكم",
+  "home": "الرئيسية",
+  "projects": "المشاريع",
+  "tasks": "المهام",
+  "calendar": "التقويم",
+  "reports": "التقارير",
+  "analytics": "التحليلات",
+  "team": "الفريق",
+  "messages": "الرسائل",
+  "files": "الملفات",
+  "settings": "الإعدادات",
+  "help": "المساعدة",
+  "usersResults": "المستخدمون والنتائج",
+  "contentManagement": "إدارة المحتوى",
+  "publicApiManagement": "إدارة واجهة برمجة التطبيقات العامة"
+},
+
   "auth": {
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",

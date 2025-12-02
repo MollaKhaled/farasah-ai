@@ -33,9 +33,10 @@ export default function Navbar() {
     }
   }, [i18n]);
 
-  const handleLanguageChange = (option) => {
+  const handleLanguageChange = (option:any) => {
     console.log("aa", option);
     i18n.changeLanguage(option.value);
+    document.documentElement.dir = option.value === "ar" ? "rtl" : "ltr";
     localStorage.setItem("language", option.value);
   };
 

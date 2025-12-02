@@ -47,19 +47,23 @@
     "upgradeToPro":"upgradeToPro"
   },
   "sidebar": {
-    "dashboard": "Dashboard",
-    "home": "Home",
-    "projects": "Projects",
-    "tasks": "Tasks",
-    "calendar": "Calendar",
-    "reports": "Reports",
-    "analytics": "Analytics",
-    "team": "Team",
-    "messages": "Messages",
-    "files": "Files",
-    "settings": "Settings",
-    "help": "Help"
-  },
+  "dashboard": "Dashboard",
+  "home": "Home",
+  "projects": "Projects",
+  "tasks": "Tasks",
+  "calendar": "Calendar",
+  "reports": "Reports",
+  "analytics": "Analytics",
+  "team": "Team",
+  "messages": "Messages",
+  "files": "Files",
+  "settings": "Settings",
+  "help": "Help",
+  "usersResults": "Users & Results",
+  "contentManagement": "Content Management",
+  "publicApiManagement": "Public API Management"
+},
+
   "auth": {
     "login": "Login",
     "register": "Register",
